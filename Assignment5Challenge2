@@ -1,0 +1,86 @@
+Within sketch.js file:
+
+// Linardos,Caitlin
+// Assignment 5 challenge 2
+
+function setup() {
+  createCanvas(960, 540);
+
+  
+}
+
+  function draw() {
+    background("peachpuff");
+    //"#dbd8e3"
+  
+for (let b=0;b<bubbles.length;b++){
+  bubbles[b].show();
+  bubbles[b].move();
+}
+}
+
+Within bubble.js file:
+
+// establishing Array
+let bubbles = [];
+// defining variables
+let red1;
+let green1;
+let blue1;
+let a1;
+
+function setup() {
+  createCanvas(960, 540);
+  // Loop for bubbles
+  for (let b = 0; b < 50; b++) {
+    let x = random(width);
+    let y = random(height);
+    let r = random(5, 50);
+    bubbles[b] = new Bubble(x, y, r);
+
+    // Establishing variables
+    red1 = 255;
+    blue1 = 136;
+    green1 = 95;
+    a1 = 200;
+  }
+
+  // Establishing framerate
+  frameRate(30);
+}
+
+// Class to create bubble
+class Bubble {
+  constructor(x, y, r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+  move() {
+    this.x = this.x + random(-5, 5);
+    this.y = this.y + random(-5, 5);
+  }
+  show() {
+    push();
+    stroke("#352f44");
+    strokeWeight(8);
+    noStroke();
+    fill(red1, blue1, green1, a1);
+    ellipse(this.x, this.y, this.r * 2);
+    pop();
+  }
+}
+// function to make sketch interactive
+function mousePressed() {
+  push();
+  // Changing colors
+  red1 = random(255);
+  blue1 = random(255);
+  green1 = random(255);
+  a1 = random(255);
+  // Adding more bubbles
+  let r = random(5, 45);
+  let b = new Bubble(mouseX, mouseY, r);
+  bubbles.push(b);
+  pop();
+}
