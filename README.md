@@ -33,3 +33,47 @@ If you were to recreate the code, it should look something like this ( with jitt
 
 <img width="578" alt="Screenshot 2023-04-09 at 7 25 25 PM" src="https://user-images.githubusercontent.com/124199359/230801333-562f5d2c-d7aa-451b-ae07-2ff9950a9dc5.png">
 
+
+## assignment-5-challenge-2
+### [Link](https://editor.p5js.org/clinardos/full/SgfeqzlHE)
+
+<p> For the second part of the assignment, the task was to draw 50 moving bubbles by following the instructions within the "Arrays of Objects" tutorial. The goal was to have the bubbles be randomly distributed across the canvas. The catch was that you had to use an array, a loop, and a Bubble object to complete your sketch. For extra points, you were challenged to add style to the bubbles, randomize their sizes or make them intractive. 
+<p> To start this sketch, I duplicated my previous sketch from challenge 1. I first deleted my variables with different bubbles I had in the previous sketch and I created a loop that would allow each bubble to take on a random placement and size. 
+
+<p> Then I established an array called bubbles and within the same loop I mentioned previously I set the array to equal the creation of a new random bubble. I also added variables for color and alpha that you will see in the same loop. These come in use later in the code for a mousePressed() function. This loop looked like this:
+
+```Javascript 
+ for (let b = 0; b < 50; b++) {
+    let x = random(width);
+    let y = random(height);
+    let r = random(5, 50);
+       bubbles[b] = new Bubble(x, y, r);
+
+    // Establishing variables
+    red1 = 255;
+    blue1 = 136;
+    green1 = 95;
+    a1 = 200;
+  }
+```
+<p> Lastly, I added a mousePressed function that allowed the player to create new bubbles and changed the color of the sketch upon the click of the mouse. This looked like this: 
+
+```Javascript 
+function mousePressed() {
+  push();
+  // Changing colors
+  red1 = random(255);
+  blue1 = random(255);
+  green1 = random(255);
+  a1 = random(255);
+  // Adding more bubbles
+  let r = random(5, 45);
+  let b = new Bubble(mouseX, mouseY, r);
+  bubbles.push(b);
+  pop();
+}
+```
+
+If you were to duplicate this sketch, it would look like something along the lines of this (with variations in bubble placement, bubble size, and color. As well as bubbles moving to show a jittering affect):
+
+<img width="1171" alt="Screenshot 2023-04-12 at 8 47 58 AM" src="https://user-images.githubusercontent.com/124199359/231462177-28e1067e-ae23-401d-8905-271257b93f33.png">
