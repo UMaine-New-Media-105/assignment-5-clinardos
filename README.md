@@ -77,3 +77,11 @@ function mousePressed() {
 If you were to duplicate this sketch, it would look like something along the lines of this (with variations in bubble placement, bubble size, and color. As well as bubbles moving to show a jittering affect):
 
 <img width="1171" alt="Screenshot 2023-04-12 at 8 47 58 AM" src="https://user-images.githubusercontent.com/124199359/231462177-28e1067e-ae23-401d-8905-271257b93f33.png">
+
+
+# assignment-5-clinardos
+
+
+## assignment-5-challenge-3
+### [Link](https://editor.p5js.org/clinardos/full/6eeJh0Ua0)
+<p> For challenge 3, the goal was to create our sim game and populate it with a breeder, a catcher, and particles.  I first started out by duplicating my sketch from the previous challenge. I then created 3 different "sprites to act as each of these: A mouse, a Chunk of cheese, and a hole in the wall the mouse would use to get to his home. I used the same code as above to make my sprites appear on the sketch but this didn't work and I am still trying to figure it out. I will update when fixed. 
