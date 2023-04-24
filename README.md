@@ -90,3 +90,8 @@ If you were to duplicate this sketch, it would look like something along the lin
    If you were to copy this code, it should present a simulation that looks like this: 
       
 <img width="810" alt="Screenshot 2023-04-24 at 1 30 16 PM" src="https://user-images.githubusercontent.com/124199359/234072496-5b9d1f52-9fb3-49cd-acdc-d205994428de.png">
+
+## assignment-5-challenge-4
+### [Link](https://editor.p5js.org/clinardos/full/jgsFOi2zO)
+
+For the next part of this assignment, the task was to to animate your breeders so they will start a
