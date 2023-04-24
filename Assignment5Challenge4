@@ -1,0 +1,249 @@
+// Linardos, Caitlin
+// Assignment 5 Challenge 4
+
+// Establishing Arrays
+let bubbles = [];
+let mice = [];
+let cheeses = [];
+
+// Establishing Variables
+let addX;
+let img;
+let tooFarLeft;
+let tooFarRight;
+
+function setup() {
+  createCanvas(960, 540, WEBGL);
+  angleMode(DEGREES);
+
+  // Defining variables
+  addX = -3;
+
+  // This is for the cheese
+  img = loadImage("cheeseTexture.png");
+  push();
+  tooFarRight = (x) => x > width - 180;
+  tooFarLeft = (x) => x < -100;
+  pop();
+
+  // Setting frame rate for movement
+  frameRate(30);
+
+  //Loop for bubbles
+  for (let b = 0; b < 50; b++) {
+    let x = random(width);
+    let y = random(height);
+    let r = random(5, 50);
+    bubbles.push(new Bubble(x, y, r));
+  }
+
+  // Loop for mice
+  for (let m = 0; m < 5; m++) {
+    let x = random(width);
+    let y = random(height);
+    mice.push(new Mouse(x, y));
+  }
+  // Cheese
+  for (let c = 0; c < 5; c++) {
+    let x = random(width - 30);
+    let y = random(height - 30);
+    let s = 0.6;
+    cheeses.push(new Cheese(x, y, s));
+  }
+}
+
+function draw() {
+  background(220);
+  translate(-400, -250);
+
+  //Bubbles
+  for (let b = 0; b < bubbles.length; b++) {
+    bubbles[b].show();
+    bubbles[b].move();
+  }
+
+  //Mice
+  for (let m = 0; m < mice.length; m++) {
+    let theseMice = mice[m];
+    theseMice.show();
+    theseMice.update();
+  }
+  //Cheese
+  for (let c = 0; c < cheeses.length; c++) {
+    cheeses[c].show();
+    cheeses[c].update();
+  }
+}
+
+// Bubbles class
+class Bubble {
+  constructor(x, y, r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+  show() {
+    push();
+    noStroke();
+    fill(255, 255, 255, 150);
+    ellipse(this.x, this.y, this.r * 2);
+    pop();
+  }
+  move() {
+    this.x += random(-1, 1);
+    this.y += random(-1, 1);
+  }
+}
+//Mouse -- CATCHERS
+class Mouse {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.addX = addX;
+    this.isMovingLeft = false;
+    this.isMovingRight = false;
+  }
+  update() {
+    this.x += this.addX;
+    this.y = this.y;
+
+    // check if the mouse hits the left wall
+    tooFarLeft = (x) => x < -100;
+    if (tooFarLeft(this.x)) {
+      this.addX = -this.addX;
+      this.isMovingLeft = true;
+      this.isMovingRight = false;
+    }
+    if (tooFarRight(this.x)) {
+      this.addX = -this.addX;
+      this.isMovingLeft = false;
+      this.isMovingRight = true;
+    }
+  }
+  show() {
+    push();
+    translate(this.x, this.y);
+    strokeWeight(1.5);
+    if (this.isMovingLeft == true) {
+      fill("#838996");
+      // Body
+      ellipse(50, 50, 50, 35);
+      // Ears
+      arc(55, 42, 11, 11, 60, 370);
+      arc(55, 54, 11, 11, 0, 300);
+      fill("pink");
+      ellipse(55, 54, 6.5);
+      ellipse(55, 42, 6.5);
+      // Nose
+      fill("black");
+      ellipse(73, 50, 3, 5);
+      // Eyes
+      ellipse(65, 45, 2);
+      ellipse(65, 54, 2);
+      // Tail
+      push();
+      noFill();
+      stroke("black");
+      strokeWeight(2);
+      curve(0, 150, 5, 40, 30, 50, 30, 20);
+      pop();
+      pop();
+    } else if (this.isMovingRight == true) {
+      fill("#838996");
+      // Body
+      ellipse(50, 50, 50, 35);
+      // Ears
+      arc(45, 44, 11, 11, -170, 480);
+      arc(45, 56, 11, 11, -120, 510);
+      fill("pink");
+      ellipse(45, 56, 6.5);
+      ellipse(45, 44, 6.5);
+
+      // nose
+      fill("black");
+      ellipse(27, 50, 3, 5);
+      // eyes
+      ellipse(35, 46, 2);
+      ellipse(35, 55, 2);
+
+      // tail
+      push();
+      noFill();
+      stroke("black");
+      strokeWeight(2);
+      curve(120, 150, 95, 40, 70, 50, 30, 20);
+      pop();
+      pop();
+    } else {
+      fill("#838996");
+      // Body
+      ellipse(50, 50, 50, 35);
+      // Ears
+      arc(45, 44, 11, 11, -170, 480);
+      arc(45, 56, 11, 11, -120, 510);
+      fill("pink");
+      ellipse(45, 56, 6.5);
+      ellipse(45, 44, 6.5);
+
+      // nose
+      fill("black");
+      ellipse(27, 50, 3, 5);
+      // eyes
+      ellipse(35, 46, 2);
+      ellipse(35, 55, 2);
+
+      // tail
+      push();
+      noFill();
+      stroke("black");
+      strokeWeight(2);
+      curve(120, 150, 95, 40, 70, 50, 30, 20);
+      pop();
+      pop();
+    }
+  }
+}
+
+// Cheese -- BREEDERS
+class Cheese {
+  constructor(x, y, s) {
+    this.x = x;
+    this.y = y;
+    this.s = s;
+    this.addX = addX;
+    this.isMovingLeft = false;
+    this.isMovingRight = false;
+  }
+  show() {
+    push();
+    noStroke();
+    translate(this.x, this.y);
+    scale(this.s);
+    push();
+    rotateZ(frameCount);
+    rotateX(frameCount);
+    rotateY(frameCount);
+    push();
+    texture(img);
+    box(40);
+    pop();
+    pop();
+    pop();
+  }
+  update() {
+    push();
+    tooFarLeft = (x) => x < -50;
+    this.x += this.addX;
+    if (tooFarLeft(this.x)) {
+      this.addX = -this.addX;
+      this.isMovingLeft = true;
+      this.isMovingRight = false;
+    }
+    pop();
+    if (tooFarRight(this.x)) {
+      this.addX = -this.addX;
+      this.isMovingLeft = false;
+      this.isMovingRight = true;
+    }
+  }
+}
