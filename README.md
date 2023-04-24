@@ -79,9 +79,14 @@ If you were to duplicate this sketch, it would look like something along the lin
 <img width="1171" alt="Screenshot 2023-04-12 at 8 47 58 AM" src="https://user-images.githubusercontent.com/124199359/231462177-28e1067e-ae23-401d-8905-271257b93f33.png">
 
 
-# assignment-5-clinardos
-
 
 ## assignment-5-challenge-3
-### [Link](https://editor.p5js.org/clinardos/full/6eeJh0Ua0)
-<p> For challenge 3, the goal was to create our sim game and populate it with a breeder, a catcher, and particles.  I first started out by duplicating my sketch from the previous challenge. I then created 3 different "sprites to act as each of these: A mouse, a Chunk of cheese, and a hole in the wall the mouse would use to get to his home. I used the same code as above to make my sprites appear on the sketch but this didn't work and I am still trying to figure it out. I will update when fixed. 
+### [Link](https://editor.p5js.org/clinardos/full/95NJ5kyQt)
+<p> Finally, after trying to restart this portion of the assignment I have finally figured it out. I am not sure what the actual problem was. 
+   
+   However, the task of this assignment was to create a simulation of an environment or a system. For, this game the user will not directly interact wiuth the simulation instead you will use parameters for the game to be able to evolve. You will need to design particles, breeders, and catchers. 
+   For the start, I wanted to do pieces of cheese as the particles, hole in the wall breeders, and mice for the catchers. I believe this was to complex so I decieded on bubbles as particles, a mouse as the catcher, and cheese as the breeder. I used loops, arrays, and classes to accomplish this task. 
+   
+   If you were to copy this code, it should present a simulation that looks like this: 
+      
+<img width="810" alt="Screenshot 2023-04-24 at 1 30 16 PM" src="https://user-images.githubusercontent.com/124199359/234072496-5b9d1f52-9fb3-49cd-acdc-d205994428de.png">
