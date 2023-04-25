@@ -9,8 +9,22 @@ let cheeses = [];
 // Establishing Variables
 let addX;
 let img;
-let tooFarLeft;
-let tooFarRight;
+let tooFarLeft = (x) => x < -100;
+let tooFarRight = (x) => x > width - 180;
+let spriteWidth;
+let spawnDelay;
+let breedersToStart = 25;
+let catchersToStart = 2;
+let framesDelayed = 0;
+let s = 0.6;
+let startHealth = 600;
+
+// Preload function used to allow image to fully load before sketch is run.
+
+function preload() {
+  // This is for the cheese
+  img = loadImage("cheeseTexture.png");
+}
 
 function setup() {
   createCanvas(960, 540, WEBGL);
@@ -18,13 +32,8 @@ function setup() {
 
   // Defining variables
   addX = -3;
-
-  // This is for the cheese
-  img = loadImage("cheeseTexture.png");
-  push();
-  tooFarRight = (x) => x > width - 180;
-  tooFarLeft = (x) => x < -100;
-  pop();
+  spriteWidth = 80;
+  spawnDelay = 90;
 
   // Setting frame rate for movement
   frameRate(30);
@@ -37,17 +46,17 @@ function setup() {
     bubbles.push(new Bubble(x, y, r));
   }
 
-  // Loop for mice
-  for (let m = 0; m < 5; m++) {
+  // Loop for mice (catchers)
+  for (let m = 0; m < catchersToStart; m++) {
     let x = random(width);
     let y = random(height);
     mice.push(new Mouse(x, y));
   }
-  // Cheese
-  for (let c = 0; c < 5; c++) {
+
+  // Cheese (breeders)
+  for (let c = 0; c < breedersToStart; c++) {
     let x = random(width - 30);
     let y = random(height - 30);
-    let s = 0.6;
     cheeses.push(new Cheese(x, y, s));
   }
 }
@@ -56,25 +65,65 @@ function draw() {
   background(220);
   translate(-400, -250);
 
+  // This prevents one collision from spawning multiple children
+  framesDelayed++;
+
   //Bubbles
   for (let b = 0; b < bubbles.length; b++) {
     bubbles[b].show();
     bubbles[b].move();
   }
 
-  //Mice
+  //Mice (catcher)
   for (let m = 0; m < mice.length; m++) {
-    let theseMice = mice[m];
-    theseMice.show();
-    theseMice.update();
+    let thisCatcher = mice[m];
+    thisCatcher.show();
+    thisCatcher.update();
+    if (thisCatcher.health < 0) {
+      mice.splice(m, 1);
+    }
+    for (let breedersLeft = 0; breedersLeft < cheeses.length; breedersLeft++) {
+      let proposedCatch = cheeses[breedersLeft];
+      if (isTouching(thisCatcher, proposedCatch)) {
+        cheeses.splice(breedersLeft, 1);
+        thisCatcher.health = startHealth;
+        break;
+      }
+    }
   }
-  //Cheese
+  //Cheese (breeder)
   for (let c = 0; c < cheeses.length; c++) {
-    cheeses[c].show();
-    cheeses[c].update();
+    let thisBreeder = cheeses[c];
+    thisBreeder.show();
+    thisBreeder.update();
+    if (framesDelayed > spawnDelay) {
+      for (
+        let matesChecked = 0;
+        matesChecked < cheeses.length;
+        matesChecked++
+      ) {
+        let proposedMate = cheeses[matesChecked];
+        let isDifferentBreeder = c !== matesChecked;
+        if (isDifferentBreeder && isTouching(thisBreeder, proposedMate)) {
+          let x = random(width);
+          let y = random(height);
+          cheeses.push(new Cheese(x, y, s));
+          framesDelayed = 0;
+          break;
+        }
+      }
+    }
   }
 }
-
+function isTouching(sprite1, sprite2) {
+  let spriteDistance = dist(sprite1.x, sprite1.y, sprite2.x, sprite2.y);
+  return spriteDistance < spriteWidth;
+  // if (spriteDistance < spriteWidth) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+}
 // Bubbles class
 class Bubble {
   constructor(x, y, r) {
@@ -102,13 +151,14 @@ class Mouse {
     this.addX = addX;
     this.isMovingLeft = false;
     this.isMovingRight = false;
+    this.health = startHealth;
   }
   update() {
     this.x += this.addX;
     this.y = this.y;
+    this.health--;
 
     // check if the mouse hits the left wall
-    tooFarLeft = (x) => x < -100;
     if (tooFarLeft(this.x)) {
       this.addX = -this.addX;
       this.isMovingLeft = true;
@@ -122,85 +172,39 @@ class Mouse {
   }
   show() {
     push();
+    let d = 1;
     translate(this.x, this.y);
     strokeWeight(1.5);
     if (this.isMovingLeft == true) {
-      fill("#838996");
-      // Body
-      ellipse(50, 50, 50, 35);
-      // Ears
-      arc(55, 42, 11, 11, 60, 370);
-      arc(55, 54, 11, 11, 0, 300);
-      fill("pink");
-      ellipse(55, 54, 6.5);
-      ellipse(55, 42, 6.5);
-      // Nose
-      fill("black");
-      ellipse(73, 50, 3, 5);
-      // Eyes
-      ellipse(65, 45, 2);
-      ellipse(65, 54, 2);
-      // Tail
-      push();
-      noFill();
-      stroke("black");
-      strokeWeight(2);
-      curve(0, 150, 5, 40, 30, 50, 30, 20);
-      pop();
-      pop();
-    } else if (this.isMovingRight == true) {
-      fill("#838996");
-      // Body
-      ellipse(50, 50, 50, 35);
-      // Ears
-      arc(45, 44, 11, 11, -170, 480);
-      arc(45, 56, 11, 11, -120, 510);
-      fill("pink");
-      ellipse(45, 56, 6.5);
-      ellipse(45, 44, 6.5);
-
-      // nose
-      fill("black");
-      ellipse(27, 50, 3, 5);
-      // eyes
-      ellipse(35, 46, 2);
-      ellipse(35, 55, 2);
-
-      // tail
-      push();
-      noFill();
-      stroke("black");
-      strokeWeight(2);
-      curve(120, 150, 95, 40, 70, 50, 30, 20);
-      pop();
-      pop();
+      d = 1;
     } else {
-      fill("#838996");
-      // Body
-      ellipse(50, 50, 50, 35);
-      // Ears
-      arc(45, 44, 11, 11, -170, 480);
-      arc(45, 56, 11, 11, -120, 510);
-      fill("pink");
-      ellipse(45, 56, 6.5);
-      ellipse(45, 44, 6.5);
-
-      // nose
-      fill("black");
-      ellipse(27, 50, 3, 5);
-      // eyes
-      ellipse(35, 46, 2);
-      ellipse(35, 55, 2);
-
-      // tail
-      push();
-      noFill();
-      stroke("black");
-      strokeWeight(2);
-      curve(120, 150, 95, 40, 70, 50, 30, 20);
-      pop();
-      pop();
+      d = -d;
     }
+    fill("#838996");
+    // Body
+    ellipse(50 * d, 50, 50, 35);
+    // Ears
+    arc(55 * d, 42, 11, 11, 60, 370);
+    arc(55 * d, 54, 11, 11, 0, 300);
+    fill("pink");
+    ellipse(55 * d, 54, 6.5);
+    ellipse(55 * d, 42, 6.5);
+    // Nose
+    fill("black");
+    ellipse(73 * d, 50, 3, 5);
+    // Eyes
+    ellipse(65 * d, 45, 2);
+    ellipse(65 * d, 54, 2);
+    // Tail
+    push();
+    noFill();
+    stroke("black");
+    strokeWeight(2);
+    noFill();
+    stroke(0, 0, 0);
+    bezier(28 * d, 50, 15 * d, 40, 14 * d, 70, 0 * d, 50);
+    pop();
+    pop();
   }
 }
 
@@ -216,18 +220,20 @@ class Cheese {
   }
   show() {
     push();
+    let d = 1;
+    if (this.isMovingRight == true) {
+      d = -d;
+    } else {
+      d = 1;
+    }
     noStroke();
     translate(this.x, this.y);
     scale(this.s);
-    push();
     rotateZ(frameCount);
     rotateX(frameCount);
     rotateY(frameCount);
-    push();
     texture(img);
-    box(40);
-    pop();
-    pop();
+    box(40 * d);
     pop();
   }
   update() {
