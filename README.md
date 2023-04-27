@@ -94,4 +94,21 @@ If you were to duplicate this sketch, it would look like something along the lin
 ## assignment-5-challenge-4
 ### [Link](https://editor.p5js.org/clinardos/full/jgsFOi2zO)
 
-For the next part of this assignment, the task was to to animate your breeders so they will start a
+For the next part of this assignment, the task was to to animate your breeders so they will start at a random y-position and speed at the left edge of the screen, switching direction when they hit the canvas. 
+
+I was able to accomplish this task by creating a function and using the distance formula. 
+
+## assignment-5-challenge-5
+### [Link] (https://editor.p5js.org/clinardos/full/aKJJzLuhb)
+
+I accidentally used the same sketch as challenge 4. However, the task was to animate the catchers at the left side of the screen and have them switch directions when they hit the dge of the canvas. Also detect any collision between a catcher and breeder and remove the breeder from simulation. 
+
+I completed this again with the same formula and functions used in challenge 4. 
+
+I do notice a little bit of glitching with both sprites on the right side of the canvas, I am not sure if this is because of the complexity of the sprites or if there is an error in the code. I will update if I figure it out. 
+
+If you were to copy this code, it should play a simulation and look something like this: 
+
+<img width="1107" alt="Screenshot 2023-04-26 at 9 08 01 PM" src="https://user-images.githubusercontent.com/124199359/234734972-437c442a-26fb-437a-a93f-a90c27352c7c.png">
+
+
