@@ -7,14 +7,14 @@ let mice = [];
 let cheeses = [];
 
 // Establishing Variables
-let addX;
+let addX = -3;
 let img;
-let tooFarLeft = (x) => x < -100;
-let tooFarRight = (x) => x > width - 180;
-let spriteWidth;
+let isTooFarLeft = (x) => x < -spriteWidth;
+let isTooFarRight = (x) => x > width - spriteWidth;
+let spriteWidth = 20;
 let spawnDelay;
-let breedersToStart = 25;
-let catchersToStart = 6;
+let breedersToStart = 38;
+let catchersToStart = 3;
 let framesDelayed = 0;
 let s = 0.6;
 let startHealth = 600;
@@ -31,8 +31,6 @@ function setup() {
   angleMode(DEGREES);
 
   // Defining variables
-  addX = -3;
-  spriteWidth = 80;
   spawnDelay = 90;
 
   // Setting frame rate for movement
@@ -79,19 +77,19 @@ function draw() {
     let currentMice = mice[m];
     currentMice.show();
     currentMice.update();
-       for (let miceLeft = 0; miceLeft < cheeses.length; miceLeft++) {
-     let proposedCatch = cheeses[miceLeft];
-     if (isTouching(currentMice, proposedCatch)) {
+    for (let miceLeft = 0; miceLeft < cheeses.length; miceLeft++) {
+      let proposedCatch = cheeses[miceLeft];
+      if (isTouching(currentMice, proposedCatch)) {
         cheeses.splice(miceLeft, 1);
-        currentMice.health = startHealth
+        currentMice.health = startHealth;
         break;
       }
     }
-      if (currentMice.health < 0) {
+    if (currentMice.health < 0) {
       mice.splice(m, 1);
     }
   }
-  
+
   //Cheese (breeder)
   for (let c = 0; c < cheeses.length; c++) {
     let currentCheese = cheeses[c];
@@ -104,7 +102,7 @@ function draw() {
         matesChecked++
       ) {
         let proposedMate = cheeses[matesChecked];
-        let isDifferentCheese = (c !== matesChecked);
+        let isDifferentCheese = c !== matesChecked;
         if (isDifferentCheese && isTouching(currentCheese, proposedMate)) {
           let x = random(width);
           let y = random(height);
@@ -118,7 +116,7 @@ function draw() {
 }
 function isTouching(sprite1, sprite2) {
   let spriteDistance = dist(sprite1.x, sprite1.y, sprite2.x, sprite2.y);
-  if (spriteDistance < spriteWidth) {
+  if (spriteDistance < spriteWidth * 4) {
     return true;
   } else {
     return false;
@@ -155,16 +153,16 @@ class Mouse {
   }
   update() {
     this.x += this.addX;
-    this.y = this.y;
+    // this.y = this.y;
     this.health--;
 
     // check if the mouse hits the left wall
-    if (tooFarLeft(this.x)) {
+    if (isTooFarLeft(this.x)) {
       this.addX = -this.addX;
       this.isMovingLeft = true;
       this.isMovingRight = false;
     }
-    if (tooFarRight(this.x)) {
+    if (isTooFarRight(this.x)) {
       this.addX = -this.addX;
       this.isMovingLeft = false;
       this.isMovingRight = true;
@@ -237,16 +235,15 @@ class Cheese {
     pop();
   }
   update() {
-    push();
-    tooFarLeft = (x) => x < -50;
+    // push();
     this.x += this.addX;
-    if (tooFarLeft(this.x)) {
+    if (isTooFarLeft(this.x)) {
       this.addX = -this.addX;
       this.isMovingLeft = true;
       this.isMovingRight = false;
     }
-    pop();
-    if (tooFarRight(this.x)) {
+    // pop();
+    if (isTooFarRight(this.x)) {
       this.addX = -this.addX;
       this.isMovingLeft = false;
       this.isMovingRight = true;
