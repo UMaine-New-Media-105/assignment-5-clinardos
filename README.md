@@ -105,7 +105,8 @@ I accidentally used the same sketch as challenge 4. However, the task was to ani
 
 I completed this again with the same formula and functions used in challenge 4. 
 
-I do notice a little bit of glitching with both sprites on the right side of the canvas, I am not sure if this is because of the complexity of the sprites or if there is an error in the code. I will update if I figure it out. 
+Updated to reduce glitching with the help of Jon. "I set a variable for spriteWidth and made it smaller than the collision distance. This made it less likely that a sprite would be “double-sampled” near the edge with the consequence that the velocity would keep changing back and forth between positive and negative. (I changed the distance for collision to the spriteWidth times 4 just to encourage the mice to eat.)
+I got rid of unnecessary code in the Cheese update method." - Jon Ippolito
 
 If you were to copy this code, it should play a simulation and look something like this: 
 
